@@ -8,6 +8,8 @@ export const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { fetchUser } = useAuth();
 
@@ -83,16 +85,56 @@ export const LoginPage: React.FC = () => {
         <h2 style={{ marginBottom: 32, color: '#fff', fontWeight: 700, fontSize: 36, letterSpacing: 1 }}>Login</h2>
         {success && <div style={{ color: 'lightgreen', marginBottom: 16 }}>Login successful! Redirecting...</div>}
         <div style={{ width: '100%' }}>
-          <AuthForm 
-            mode="login" 
-            onSubmit={handleLogin} 
-            loading={loading} 
-            error={error || undefined} 
-            inputStyle={{ color: '#fff', borderBottom: '2px solid #fff', background: 'transparent', marginBottom: 32, fontSize: 18, padding: '10px 0' }} 
-            labelStyle={{ color: '#fff', fontWeight: 600, marginBottom: 12 }} 
-            buttonStyle={{ background: '#fff', color: '#222', fontWeight: 700, borderRadius: 24, fontSize: 20, margin: '36px 0 0 0', padding: '14px 0' }} 
-            linkStyle={{ color: '#fff', fontWeight: 600, textDecoration: 'underline', marginLeft: 8 }} 
-          />
+          {/* Placeholder for username, password, and social login buttons */}
+          <form
+            style={{ display: 'flex', flexDirection: 'column', gap: 24 }}
+            onSubmit={e => {
+              e.preventDefault();
+              handleLogin({ email: username, password });
+            }}
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <label htmlFor="username" style={{ color: '#fff', fontWeight: 600, marginBottom: 8 }}>Username</label>
+              <input
+                id="username"
+                type="text"
+                placeholder="Username"
+                style={{ color: '#fff', borderBottom: '2px solid #fff', background: 'transparent', marginBottom: 8, fontSize: 18, padding: '10px 0', width: '100%', '::placeholder': { color: '#ffffffcc', opacity: 1 } }}
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <label htmlFor="password" style={{ color: '#fff', fontWeight: 600, marginBottom: 8 }}>Password</label>
+              <input
+                id="password"
+                type="password"
+                placeholder="Password"
+                style={{ color: '#fff', borderBottom: '2px solid #fff', background: 'transparent', marginBottom: 8, fontSize: 18, padding: '10px 0', width: '100%', '::placeholder': { color: '#ffffffcc', opacity: 1 } }}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" style={{ background: '#fff', color: '#222', fontWeight: 700, borderRadius: 24, fontSize: 20, margin: '36px 0 0 0', padding: '14px 0', cursor: 'pointer' }} disabled={loading}>
+              {loading ? 'Logging in...' : 'Login'}
+            </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 24 }}>
+              <button type="button" style={{ background: '#1DB954', color: '#fff', fontWeight: 700, borderRadius: 24, fontSize: 18, padding: '12px 0', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, cursor: 'not-allowed', opacity: 0.7 }} disabled>
+                {/* Spotify Icon Placeholder */}
+                <span style={{ fontSize: 20 }}>🎵</span> Continue with Spotify
+              </button>
+              <button type="button" style={{ background: '#fff', color: '#222', fontWeight: 700, borderRadius: 24, fontSize: 18, padding: '12px 0', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, cursor: 'not-allowed', opacity: 0.7 }} disabled>
+                {/* Google Icon Placeholder */}
+                <span style={{ fontSize: 20 }}>🔵</span> Continue with Google
+              </button>
+              <button type="button" style={{ background: '#1877F2', color: '#fff', fontWeight: 700, borderRadius: 24, fontSize: 18, padding: '12px 0', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, cursor: 'not-allowed', opacity: 0.7 }} disabled>
+                {/* Facebook Icon Placeholder */}
+                <span style={{ fontSize: 20 }}>📘</span> Continue with Facebook
+              </button>
+            </div>
+          </form>
         </div>
         <div style={{ marginTop: '2rem', textAlign: 'center', width: '100%' }}>
           <span style={{ color: '#fff', fontWeight: 400 }}>Don't have an account</span>

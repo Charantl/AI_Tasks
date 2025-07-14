@@ -7,6 +7,10 @@ export const RegisterPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = async (data: { email: string; password: string; username: string }) => {
@@ -65,16 +69,70 @@ export const RegisterPage: React.FC = () => {
         <h2 style={{ marginBottom: 32, color: '#fff', fontWeight: 700, fontSize: 36, letterSpacing: 1 }}>Register</h2>
         {success && <div style={{ color: 'lightgreen', marginBottom: 16 }}>Registration successful! Redirecting...</div>}
         <div style={{ width: '100%' }}>
-          <AuthForm 
-            mode="register" 
-            onSubmit={handleRegister} 
-            loading={loading} 
-            error={error || undefined} 
-            inputStyle={{ color: '#fff', borderBottom: '2px solid #fff', background: 'transparent', marginBottom: 32, fontSize: 18, padding: '10px 0' }} 
-            labelStyle={{ color: '#fff', fontWeight: 600, marginBottom: 12 }} 
-            buttonStyle={{ background: '#fff', color: '#222', fontWeight: 700, borderRadius: 24, fontSize: 20, margin: '36px 0 0 0', padding: '14px 0' }} 
-            linkStyle={{ color: '#fff', fontWeight: 600, textDecoration: 'underline', marginLeft: 8 }} 
-          />
+          {/* Placeholder for registration form with username, email, password, confirm password, and social login buttons */}
+          <form
+            style={{ display: 'flex', flexDirection: 'column', gap: 14 }}
+            onSubmit={e => {
+              e.preventDefault();
+              if (password !== confirmPassword) {
+                setError("Passwords do not match");
+                return;
+              }
+              handleRegister({ email, password, username });
+            }}
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <label htmlFor="username" style={{ color: '#fff', fontWeight: 600, marginBottom: 8 }}>Username</label>
+              <input
+                id="username"
+                type="text"
+                placeholder="Username"
+                style={{ color: '#fff', borderBottom: '2px solid #fff', background: 'transparent', marginBottom: 8, fontSize: 18, padding: '10px 0', width: '100%', '::placeholder': { color: '#ffffffcc', opacity: 1 } }}
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <label htmlFor="email" style={{ color: '#fff', fontWeight: 600, marginBottom: 8 }}>Email</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="Email"
+                style={{ color: '#fff', borderBottom: '2px solid #fff', background: 'transparent', marginBottom: 8, fontSize: 18, padding: '10px 0', width: '100%', '::placeholder': { color: '#ffffffcc', opacity: 1 } }}
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <label htmlFor="password" style={{ color: '#fff', fontWeight: 600, marginBottom: 8 }}>Password</label>
+              <input
+                id="password"
+                type="password"
+                placeholder="Password"
+                style={{ color: '#fff', borderBottom: '2px solid #fff', background: 'transparent', marginBottom: 8, fontSize: 18, padding: '10px 0', width: '100%', '::placeholder': { color: '#ffffffcc', opacity: 1 } }}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <label htmlFor="confirm-password" style={{ color: '#fff', fontWeight: 600, marginBottom: 8 }}>Confirm Password</label>
+              <input
+                id="confirm-password"
+                type="password"
+                placeholder="Confirm Password"
+                style={{ color: '#fff', borderBottom: '2px solid #fff', background: 'transparent', marginBottom: 8, fontSize: 18, padding: '10px 0', width: '100%', '::placeholder': { color: '#ffffffcc', opacity: 1 } }}
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button type="submit" style={{ background: '#fff', color: '#222', fontWeight: 700, borderRadius: 24, fontSize: 20, margin: '18px 0 0 0', padding: '14px 0', cursor: 'pointer' }} disabled={loading}>
+              {loading ? 'Registering...' : 'Register'}
+            </button>
+          </form>
         </div>
         <div style={{ marginTop: '2rem', textAlign: 'center', width: '100%' }}>
           <span style={{ color: '#fff', fontWeight: 400 }}>Already have an account?</span>
