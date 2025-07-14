@@ -1,0 +1,64 @@
+flowchart TD
+  subgraph Frontend
+    FE["React Web App"]
+  end
+  subgraph Backend
+    APIGW["API Gateway (FastAPI, async, OpenAPI)"]
+    USvc["User Service (FastAPI, Pydantic, async)"]
+    AuthSvc["Auth Service (FastAPI, Pydantic, async)"]
+    PlaylistSvc["Playlist Service (FastAPI, Pydantic, async)"]
+    MusicSvc["Music/Streaming Service (FastAPI, Pydantic, async)"]
+    SearchSvc["Search & Recommendation Service (FastAPI, Pydantic, async)"]
+    AnalyticsSvc["Analytics Service (FastAPI, Pydantic, async)"]
+    WebSocketSvc["WebSocket Gateway (FastAPI, async)"]
+    Docs["OpenAPI Docs & Source of Truth"]
+    Monitoring["Monitoring & Testing"]
+  end
+  subgraph Databases
+    PG["PostgreSQL"]
+    Redis["Redis Cache & Pub/Sub"]
+    VecDB["Vector DB (Qdrant/FAISS)"]
+  end
+  subgraph Storage
+    S3["Cloud Storage (S3)"]
+    CDN["CDN"]
+  end
+  FE -- REST/WebSocket --> APIGW
+  APIGW -- REST --> USvc
+  APIGW -- REST --> AuthSvc
+  APIGW -- REST --> PlaylistSvc
+  APIGW -- REST --> MusicSvc
+  APIGW -- REST --> SearchSvc
+  APIGW -- REST --> AnalyticsSvc
+  APIGW -- WebSocket --> WebSocketSvc
+  USvc -- SQL --> PG
+  AuthSvc -- SQL --> PG
+  PlaylistSvc -- SQL --> PG
+  MusicSvc -- SQL --> PG
+  MusicSvc -- Cache/PubSub --> Redis
+  SearchSvc -- SQL --> PG
+  SearchSvc -- Vector --> VecDB
+  AnalyticsSvc -- SQL --> PG
+  MusicSvc -- S3 API --> S3
+  S3 -- CDN Sync --> CDN
+  FE -- Audio Stream --> CDN
+  WebSocketSvc -- Real-time --> FE
+  AnalyticsSvc -- Events --> Redis
+  MusicSvc -- Events --> AnalyticsSvc
+  FE -- Upload --> S3
+  APIGW -- Docs --> Docs
+  USvc -- Docs --> Docs
+  AuthSvc -- Docs --> Docs
+  PlaylistSvc -- Docs --> Docs
+  MusicSvc -- Docs --> Docs
+  SearchSvc -- Docs --> Docs
+  AnalyticsSvc -- Docs --> Docs
+  WebSocketSvc -- Docs --> Docs
+  APIGW -- Monitoring --> Monitoring
+  USvc -- Monitoring --> Monitoring
+  AuthSvc -- Monitoring --> Monitoring
+  PlaylistSvc -- Monitoring --> Monitoring
+  MusicSvc -- Monitoring --> Monitoring
+  SearchSvc -- Monitoring --> Monitoring
+  AnalyticsSvc -- Monitoring --> Monitoring
+  WebSocketSvc -- Monitoring --> Monitoring 

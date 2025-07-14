@@ -1,0 +1,15 @@
+from .auth import router as auth_router
+from .user import router as user_router
+from .subscription import router as subscription_router
+from .artist import router as artist_router
+from .album import router as album_router
+from .song import router as song_router
+from .playlist import router as playlist_router
+from .search import router as search_router 
+from .liked_song import router as liked_song_router 
+from .play_history import router as play_history_router 
+from .comment import router as comment_router 
+from .share import router as share_router 
+from .analytics import router as analytics_router 
+from .recommendations import router as recommendations_router
+from .ws import router as ws_router 
